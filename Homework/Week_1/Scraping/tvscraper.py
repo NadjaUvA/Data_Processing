@@ -33,25 +33,40 @@ def extract_tvseries(dom):
     # initiate list to store data
     rows = []
 
-    # iterate through shows, collecting wanted data
+    # iterate through shows, collecting data
     for show in shows:
+
+        # collect titles and check if data is available
         title = show.h3.a.string
+        if not title:
+            title = 'missing data'
+
+        # collect ratings and check if data is available
         rating = show.div.div.strong.string
-        genre = '"' + show.find_all('span', {'class':'genre'})[0].text.strip() + '"'
+        if not rating:
+            rating = 'missing data'
+
+        # collect genre and check if data is available
+        genres = show.find_all('span', {'class':'genre'})[0].text.strip()
+        if not genres:
+            genres = 'missing data'
+        genre = '"' + genres + '"'
+
+        # collect runtime and check if data is available
         runtime = show.find_all('span', {'class':'runtime'})[0].text
-
-        # extract the minutes from the runtime
-        time,minutes = runtime.split(' ')
-
-        # check if runtime data is available
-        if isnull(time):
+        if not runtime:
             time = 'missing data'
+        else:
+            time,minutes = runtime.split(' ')
 
         # iterate through the stars to find actors
         stars = show.find_all('p', {'class':''})[1].find_all('a')
         actors_list = []
         for star in stars:
             actor = star.text
+            # check if data is available
+            if not actor:
+                actor = 'missing data'
             actors_list.append(actor)
         actors = '"' + ','.join(actors_list) + '"'
 
@@ -69,7 +84,7 @@ def save_csv(outfile, tvseries):
     writer = csv.writer(outfile)
     writer.writerow(['Title', 'Rating', 'Genre', 'Actors', 'Runtime'])
 
-    # iterate through series to write data to the csv-file
+    # iterate through series to write data to csv-file
     for serie in tvseries:
         writer.writerows(serie)
 
