@@ -59,7 +59,7 @@ def extract_tvseries(dom):
         else:
             time,minutes = runtime.split(' ')
 
-        # iterate through the stars to find actors
+        # iterate through stars to find actors
         stars = show.find_all('p', {'class':''})[1].find_all('a')
         actors_list = []
         for star in stars:
