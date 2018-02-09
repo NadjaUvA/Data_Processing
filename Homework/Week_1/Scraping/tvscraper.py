@@ -27,11 +27,6 @@ def extract_tvseries(dom):
     - Runtime (only a number!)
     """
 
-    # ADD YOUR CODE HERE TO EXTRACT THE ABOVE INFORMATION ABOUT THE
-    # HIGHEST RATED TV-SERIES
-    # NOTE: FOR THIS EXERCISE YOU ARE ALLOWED (BUT NOT REQUIRED) TO IGNORE
-    # UNICODE CHARACTERS AND SIMPLY LEAVE THEM OUT OF THE OUTPUT.
-
     # find all shows
     shows = dom.find_all('div', {'class':'lister-item-content'})
 
@@ -42,19 +37,28 @@ def extract_tvseries(dom):
     for show in shows:
         title = show.h3.a.string
         rating = show.div.div.strong.string
-        genre = show.find_all('span', {'class':'genre'})[0].text.strip()
+        genre = '"' + show.find_all('span', {'class':'genre'})[0].text.strip() + '"'
         runtime = show.find_all('span', {'class':'runtime'})[0].text
+
+        # extract the minutes from the runtime
+        time,minutes = runtime.split(' ')
+
+        # check if runtime data is available
+        if isnull(time):
+            time = 'missing data'
 
         # iterate through the stars to find actors
         stars = show.find_all('p', {'class':''})[1].find_all('a')
-        actors = []
+        actors_list = []
         for star in stars:
             actor = star.text
-            actors.append(actor)
+            actors_list.append(actor)
+        actors = '"' + ','.join(actors_list) + '"'
 
-        rows.extend((title, rating, genre, actors, runtime, "\n"))
+        # add show as string to list
+        serie = ','.join([title, rating, genre, actors, time])
+        rows.append([serie])
 
-    # REPLACE THIS LINE AS WELL AS APPROPRIATE
     return[rows]
 
 
@@ -64,9 +68,10 @@ def save_csv(outfile, tvseries):
     """
     writer = csv.writer(outfile)
     writer.writerow(['Title', 'Rating', 'Genre', 'Actors', 'Runtime'])
-    
-    # ADD SOME CODE OF YOURSELF HERE TO WRITE THE TV-SERIES TO DISK
-    writer.writerows(tvseries)
+
+    # iterate through series to write data to the csv-file
+    for serie in tvseries:
+        writer.writerows(serie)
 
 
 def simple_get(url):
