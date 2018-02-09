@@ -189,11 +189,11 @@ def scrape_movie_page(dom):
         of ratings.
     """
 
+    # extract most relevant information from page
     movie = dom.find('div', {'id':'main_top'})
 
     # collect title and check if data is available
     title = movie.find('div', {'id':'star-rating-widget'})['data-title']
-    # title = movie.find('h1', {'itemprop':'name'}).text.split('<')[0]
     if not title:
         title = 'missing data'
 
@@ -221,7 +221,7 @@ def scrape_movie_page(dom):
         if not director:
             director = 'missing data'
         directors_list.append(director)
-    directors = '"' + ';'.join(directors_list) + '"'
+    directors = ';'.join(directors_list)
 
     # iterate through writers to collect all data
     creators = movie.find_all('span', {'itemprop':'creator'})
@@ -232,7 +232,7 @@ def scrape_movie_page(dom):
         if not writer:
             writer = 'missing data'
         writers_list.append(writer)
-    writers = '"' + ';'.join(writers_list) + '"'
+    writers = ';'.join(writers_list)
 
     # iterate through actors to collect all data
     stars = movie.find_all('span', {'itemprop':'actors'})
@@ -243,7 +243,7 @@ def scrape_movie_page(dom):
         if not actor:
             actor = 'missing data'
         stars_list.append(actor)
-    stars = '"' + ';'.join(stars_list) + '"'
+    stars = ';'.join(stars_list)
 
     # collect rating and check if data is available
     rating = movie.find('div', {'class':'ratingValue'}).strong['title'].split(' ')[0]
@@ -255,8 +255,7 @@ def scrape_movie_page(dom):
     if not rating_nr:
         rating_nr = 'missing data'
 
-    # Return everything of interest for this movie (all strings as specified
-    # in the docstring of this function).
+    # return everything of interest for this movie
     return([title,year,duration,genre,directors,writers,stars,rating,rating_nr])
 
 
