@@ -47,7 +47,7 @@ def extract_tvseries(dom):
             rating = 'missing data'
 
         # collect genre and check if data is available
-        genres = show.find_all('span', {'class':'genre'})[0].text.strip()
+        genres = show.find('span', {'class':'genre'}).text.strip()
         if not genres:
             genres = 'missing data'
         genre = '"' + genres + '"'
