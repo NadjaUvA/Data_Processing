@@ -172,9 +172,6 @@ def scrape_top_250(soup):
         movie_url = 'http://www.imdb.com' + part_url
         movie_urls.append(movie_url)
 
-    # YOUR SCRAPING CODE GOES HERE, ALL YOU ARE LOOKING FOR ARE THE ABSOLUTE
-    # URLS TO EACH MOVIE'S IMDB PAGE, ADD THOSE TO THE LIST movie_urls.
-
     return movie_urls
 
 
@@ -191,47 +188,76 @@ def scrape_movie_page(dom):
         several), actor(s) (semicolon separated if several), rating, number
         of ratings.
     """
-    # YOUR SCRAPING CODE GOES HERE:
 
     movie = dom.find('div', {'id':'main_top'})
 
-    title = movie.find('h1', {'itemprop':'name'}).text.split('(')[0]
+    # collect title and check if data is available
+    title = movie.find('div', {'id':'star-rating-widget'})['data-title']
+    # title = movie.find('h1', {'itemprop':'name'}).text.split('<')[0]
+    if not title:
+        title = 'missing data'
 
+    # collect year and check if data is available
     year = movie.find('span', {'id':'titleYear'}).a.text
+    if not year:
+        year = 'missing data'
 
-    duration = movie.find('time', {'itemprop':'duration'}).text
+    # collect duration and check if data is available
+    duration = movie.find('time', {'itemprop':'duration'}).text.strip()
+    if not duration:
+        duration = 'missing data'
 
-    genre = movie.find('div', {'class':'subtext'}).text.split('|')[2].replace(',', ';')
+    # collect genres and check if data is available
+    genre = movie.find('div', {'class':'subtext'}).text.split('|')[2].replace(',', ';').replace('\n', '')
+    if not genre:
+        genre = 'missing data'
 
+    # iterate through directors to collect all data
     movie_directors = movie.find_all('span', {'itemprop':'director'})
     directors_list = []
     for movie_director in movie_directors:
         director = movie_director.span.text
+        # check if data is available
+        if not director:
+            director = 'missing data'
         directors_list.append(director)
     directors = '"' + ';'.join(directors_list) + '"'
 
+    # iterate through writers to collect all data
     creators = movie.find_all('span', {'itemprop':'creator'})
     writers_list = []
     for creator in creators:
         writer = creator.a.text
+        # check if data is available
+        if not writer:
+            writer = 'missing data'
         writers_list.append(writer)
     writers = '"' + ';'.join(writers_list) + '"'
 
+    # iterate through actors to collect all data
     stars = movie.find_all('span', {'itemprop':'actors'})
     stars_list = []
     for star in stars:
         actor = star.span.text
+        # check if data is available
+        if not actor:
+            actor = 'missing data'
         stars_list.append(actor)
     stars = '"' + ';'.join(stars_list) + '"'
 
+    # collect rating and check if data is available
     rating = movie.find('div', {'class':'ratingValue'}).strong['title'].split(' ')[0]
+    if not rating:
+        rating = 'missing data'
 
+    # collect rating number and check if data is available
     rating_nr = movie.find('span', {'itemprop':'ratingCount'}).text
-
+    if not rating_nr:
+        rating_nr = 'missing data'
 
     # Return everything of interest for this movie (all strings as specified
     # in the docstring of this function).
-    return 
+    return([title,year,duration,genre,directors,writers,stars,rating,rating_nr])
 
 
 if __name__ == '__main__':
