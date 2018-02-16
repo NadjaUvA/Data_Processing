@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+	<head>
+		<title> Assignment Week 2 </title>
+	</head>
+
+	<body onload="draw();">
+		<h1> My figure </h1>
+
+	<canvas id="myCanvas" width="426" height="357"></canvas>
+
+	<script>
+
+		// reading in CSV
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() { 
+			if (this.readyState == 4 & this.status == 200) {
+				document.getElementById("rawdata").innerHTML = xhttp.responseText;
+			}
+		};
+		xhttp.open("GET", "KNMI_data.csv", true);
+		xhttp.send();
+
+		// load data and split into lines
+		var raw_dates = [], raw_temperatures = [];
+		var raw_data = document.getElementById("rawdata").value.split("\n");
+
+		// iterate through lines splitting them into date and temperature
+		for (var i = 0; i < raw_data.length - 1; i++) {
+			line = raw_data[i].split(",");
+			raw_dates.push(line[0].trim(" "));
+			raw_temperatures.push(line[1].trim(" "))
+		};
+
+		// convert data into JavaScript data
+		var dates = [], temperatures = [];
+		for (var i = 0; i < raw_dates.length; i++) {
+			// convert data into JavaScript dates
+			var year = raw_dates[i].slice(0, 4);
+			var month = raw_dates[i].slice(4, 6);
+			var day = raw_dates[i].slice(6, 8);
+			var d = new Date(year, month - 1, day, 0, 0, 0, 0);
+			dates.push(d);
+			// convert data into JavaScript numbers
+			var temp = Number(raw_temperatures[i]);
+			temperatures.push(temp);
+		};
+
+		// define screen range
+		var border = 30, height_canvas = document.getElementById("myCanvas")["height"], width_canvas = document.getElementById("myCanvas")["width"];
+		var range_temp = [0, height_canvas - (2 * border)], range_date = [0, width_canvas - (2 * border)];
+
+		// calculate transformed values for temperatures
+		var domain_temp = [Math.min.apply(null, temperatures), Math.max.apply(null, temperatures)];
+		var temp_points = [], transform_temp = createTransform(domain_temp, range_temp);
+		for (var i = 0; i < temperatures.length; i++) {
+			temp_points.push(transform_temp(temperatures[i]));
+		};
+
+		// transform date values to milliseconds
+		var millisec = [];
+		for (var i = 0; i < dates.length; i++) {
+			millisec.push(dates[i].getTime());
+		};
+
+		// calculate transformed values for dates
+		var domain_dates = [Math.min.apply(null, millisec), Math.max.apply(null, millisec)];
+		var date_points = [], transform_date = createTransform(domain_dates, range_date);
+		for (var i = 0; i < millisec.length; i++) {
+			date_points.push(transform_date(millisec[i]));
+		};
+
+		// function that returns a function to calculate alpha and beta
+		function createTransform(domain, range){
+			var domain_min = domain[0];
+			var domain_max = domain[1];
+			var range_min = range[0];
+			var range_max = range[1];
+			//formulas to calculate the alpha and beta
+			var alpha = (range_max - range_min) / (domain_max - domain_min);
+			var beta = range_max - alpha * domain_max;
+			//return function for linear transormation (y = a * x + b)
+			return function(x){
+				return alpha * x + beta;
+			}
+		};
+		
+		// function to draw canvas object
+		function draw() {
+			var canvas = document.getElementById("myCanvas");
+			// check whether canvas is supported by browser
+			if (canvas.getContext) {
+				var ctx = canvas.getContext("2d");
+
+				// draw y-axis
+				var days = millisec.length, range_temp = domain_temp[1] + Math.abs(domain_temp[0]);
+				ctx.beginPath();
+				ctx.moveTo(border, border);
+				ctx.lineTo(border, range_temp + border);
+				ctx.stroke();
+				// draw x-axis
+				ctx.moveTo(border, range_temp + border);
+				ctx.lineTo(days + border, range_temp + border);
+				ctx.stroke();
+
+				// plot points and connect them
+				ctx.beginPath();
+				ctx.moveTo(date_points[0] + border, temp_points[0]);
+				for (var i = 1; i < millisec.length; i++) {
+					console.log(temp_points[i], date_points[i])
+					ctx.lineTo(date_points[i] + border, height_canvas - temp_points[i] - border);
+				}
+				ctx.stroke();
+
+				// print text
+				ctx.beginPath()
+				ctx.moveTo(border, range_temp + border);
+
+			}
+		};
+
+
+	</script>
+
+	</body>
+
+</html>
+
+
