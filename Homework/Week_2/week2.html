@@ -8,6 +8,7 @@
 		<h1> My figure </h1>
 
 	<canvas id="myCanvas" width="426" height="357"></canvas>
+	<textarea id="rawdata"></textarea>
 
 	<script>
 
@@ -15,10 +16,13 @@
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() { 
 			if (this.readyState == 4 & this.status == 200) {
-				document.getElementById("rawdata").innerHTML = xhttp.responseText;
+				console.log('hoi')
+				// document.getElementById("rawdata").innerHTML = xhttp.responseText;
+				// grote_functie(responseText)
+				console.log(xhttp.responseText)
 			}
 		};
-		xhttp.open("GET", "KNMI_data.csv", true);
+		xhttp.open("GET", "KNMI_data.txt", true);
 		xhttp.send();
 
 		// load data and split into lines
