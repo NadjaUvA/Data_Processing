@@ -4,130 +4,181 @@
 		<title> Assignment Week 2 </title>
 	</head>
 
-	<body onload="draw();">
-		<h1> My figure </h1>
+	<body>
+		<h4> Nadja van 't Hoff (11030720) </h4>
+		<p> Homework 2: Graph </p>
 
 	<canvas id="myCanvas" width="426" height="357"></canvas>
-	<textarea id="rawdata"></textarea>
 
 	<script>
-
 		// reading in CSV
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function() { 
 			if (this.readyState == 4 & this.status == 200) {
-				console.log('hoi')
-				// document.getElementById("rawdata").innerHTML = xhttp.responseText;
-				// grote_functie(responseText)
-				console.log(xhttp.responseText)
-			}
+				response_text = xhttp.responseText;
+				create_graph(response_text);
+			};
 		};
-		xhttp.open("GET", "KNMI_data.txt", true);
+		xhttp.open("GET", "KNMI_data2.csv", true);
 		xhttp.send();
 
-		// load data and split into lines
-		var raw_dates = [], raw_temperatures = [];
-		var raw_data = document.getElementById("rawdata").value.split("\n");
+		function create_graph(raw_data){
+			// iterate through lines splitting them into date and temperature
+			var raw_dates = [], raw_temperatures = [];
+			for (var i = 0; i < raw_data.length - 1; i++) {
+				line = raw_data[i].split(",");
+				console.log(line);
+				raw_dates.push(line[0].trim(" "));
+				raw_temperatures.push(line[1].trim(" "))
+			};
 
-		// iterate through lines splitting them into date and temperature
-		for (var i = 0; i < raw_data.length - 1; i++) {
-			line = raw_data[i].split(",");
-			raw_dates.push(line[0].trim(" "));
-			raw_temperatures.push(line[1].trim(" "))
+			// convert data into JavaScript data
+			var dates = [], temperatures = [];
+			for (var i = 0; i < raw_dates.length; i++) {
+				// convert data into JavaScript dates
+				var year = raw_dates[i].slice(0, 4);
+				var month = raw_dates[i].slice(4, 6);
+				var day = raw_dates[i].slice(6, 8);
+				var d = new Date(year, month - 1, day, 0, 0, 0, 0);
+				dates.push(d);
+				// convert data into JavaScript numbers
+				var temp = Number(raw_temperatures[i]);
+				temperatures.push(temp);
+			};
+
+			// define screen range
+			var border = 30, height_canvas = document.getElementById("myCanvas")["height"], width_canvas = document.getElementById("myCanvas")["width"];
+			var range_temp = [0, height_canvas - (2 * border)], range_date = [0, width_canvas - (2 * border)];
+
+			// calculate transformed values for temperatures
+			var domain_temp = [Math.min.apply(null, temperatures), Math.max.apply(null, temperatures)];
+			var temp_points = [], transform_temp = createTransform(domain_temp, range_temp);
+			for (var i = 0; i < temperatures.length; i++) {
+				temp_points.push(transform_temp(temperatures[i]));
+			};
+
+			// transform date values to milliseconds
+			var millisec = [];
+			for (var i = 0; i < dates.length; i++) {
+				millisec.push(dates[i].getTime());
+			};
+
+			// calculate transformed values for dates
+			var domain_dates = [Math.min.apply(null, millisec), Math.max.apply(null, millisec)];
+			var date_points = [], transform_date = createTransform(domain_dates, range_date);
+			for (var i = 0; i < millisec.length; i++) {
+				date_points.push(transform_date(millisec[i]));
+			};
+
+			// function that returns a function to calculate alpha and beta
+			function createTransform(domain, range){
+				var domain_min = domain[0];
+				var domain_max = domain[1];
+				var range_min = range[0];
+				var range_max = range[1];
+				//formulas to calculate the alpha and beta
+				var alpha = (range_max - range_min) / (domain_max - domain_min);
+				var beta = range_max - alpha * domain_max;
+				//return function for linear transormation (y = a * x + b)
+				return function(x){
+					return alpha * x + beta;
+				};
+			};
+			
+			// function to draw canvas object
+			function draw() {
+				var canvas = document.getElementById("myCanvas");
+				// check whether canvas is supported by browser
+				if (canvas.getContext) {
+					var ctx = canvas.getContext("2d");
+
+					// draw y-axes
+					var days = millisec.length, range_temp = domain_temp[1] + Math.abs(domain_temp[0]);
+					ctx.beginPath();
+					ctx.moveTo(border, border);
+					ctx.lineTo(border, range_temp + border);
+					ctx.stroke();
+
+					// add values at axes
+					var count = 6;
+					for (var i = 0, n = 6; i < n; i++) {
+						ctx.moveTo(border - 3, range_temp + border - count);
+						ctx.lineTo(border + 3, range_temp + border - count);
+						ctx.stroke();
+						ctx.font = '16px serif';
+						ctx.fillText(count - 56, 3, range_temp + border - count + 4);
+						count = count + 50;
+					};
+				
+					// draw x-axes
+					ctx.beginPath();
+					ctx.moveTo(border, range_temp + border);
+					ctx.lineTo(days + border, range_temp + border);
+					ctx.stroke();
+					ctx.closePath();
+
+					// add dashes at axes
+					var count = 25;
+					for (var i = 0, months = 12; i < months; i++) {
+						ctx.moveTo(border + count, range_temp + border + 3);
+						ctx.lineTo(border + count, range_temp + border - 3);
+						ctx.stroke();
+						count += 31;
+					};
+
+					// plot points of the graph and connect them
+					ctx.beginPath();
+					ctx.moveTo(date_points[0] + border, temp_points[0]);
+					for (var i = 1; i < millisec.length; i++) {
+						ctx.lineTo(date_points[i] + border, height_canvas - temp_points[i] - border);
+					};
+					ctx.stroke();
+					ctx.closePath();
+
+					// print red dashed line at zero
+					ctx.beginPath();
+					ctx.moveTo(border, range_temp + border - 56);
+					ctx.lineTo(days + border, range_temp + border - 56);
+					ctx.strokeStyle = "red";
+					ctx.setLineDash([5,2]);
+					ctx.stroke();
+					ctx.closePath();
+
+					// print months
+					ctx.beginPath();
+					ctx.font = "16 px serif";
+					ctx.fillText("jan", 30, range_temp + border + 20);
+					ctx.fillText("feb", 60, range_temp + border + 20);
+					ctx.fillText("mar", 90, range_temp + border + 20);
+					ctx.fillText("apr", 122, range_temp + border + 20);
+					ctx.fillText("may", 150, range_temp + border + 20);
+					ctx.fillText("jun", 185, range_temp + border + 20);
+					ctx.fillText("jul", 215, range_temp + border + 20);
+					ctx.fillText("aug", 245, range_temp + border + 20);
+					ctx.fillText("sep", 275, range_temp + border + 20);
+					ctx.fillText("okt", 305, range_temp + border + 20);
+					ctx.fillText("nov", 335, range_temp + border + 20);
+					ctx.fillText("dec", 370, range_temp + border + 20);
+					ctx.closePath();
+
+					// add title
+					ctx.beginPath();
+					ctx.font = "22 px serif";
+					ctx.textAlign = "center";
+					ctx.fillStyle = "blue";
+					ctx.fillText("De Bilt weather station | Temperatures 2008", width_canvas / 2, 18);
+					ctx.closePath();
+
+					// add text
+					ctx.beginPath();
+					ctx.fillStyle = "grey";
+					ctx.fillText("Month", width_canvas - 25, height_canvas - 35)
+					ctx.rotate(-Math.PI/2)
+					ctx.fillText("Degrees", - 30, 25);
+					ctx.closePath();
+				};
+			};
 		};
-
-		// convert data into JavaScript data
-		var dates = [], temperatures = [];
-		for (var i = 0; i < raw_dates.length; i++) {
-			// convert data into JavaScript dates
-			var year = raw_dates[i].slice(0, 4);
-			var month = raw_dates[i].slice(4, 6);
-			var day = raw_dates[i].slice(6, 8);
-			var d = new Date(year, month - 1, day, 0, 0, 0, 0);
-			dates.push(d);
-			// convert data into JavaScript numbers
-			var temp = Number(raw_temperatures[i]);
-			temperatures.push(temp);
-		};
-
-		// define screen range
-		var border = 30, height_canvas = document.getElementById("myCanvas")["height"], width_canvas = document.getElementById("myCanvas")["width"];
-		var range_temp = [0, height_canvas - (2 * border)], range_date = [0, width_canvas - (2 * border)];
-
-		// calculate transformed values for temperatures
-		var domain_temp = [Math.min.apply(null, temperatures), Math.max.apply(null, temperatures)];
-		var temp_points = [], transform_temp = createTransform(domain_temp, range_temp);
-		for (var i = 0; i < temperatures.length; i++) {
-			temp_points.push(transform_temp(temperatures[i]));
-		};
-
-		// transform date values to milliseconds
-		var millisec = [];
-		for (var i = 0; i < dates.length; i++) {
-			millisec.push(dates[i].getTime());
-		};
-
-		// calculate transformed values for dates
-		var domain_dates = [Math.min.apply(null, millisec), Math.max.apply(null, millisec)];
-		var date_points = [], transform_date = createTransform(domain_dates, range_date);
-		for (var i = 0; i < millisec.length; i++) {
-			date_points.push(transform_date(millisec[i]));
-		};
-
-		// function that returns a function to calculate alpha and beta
-		function createTransform(domain, range){
-			var domain_min = domain[0];
-			var domain_max = domain[1];
-			var range_min = range[0];
-			var range_max = range[1];
-			//formulas to calculate the alpha and beta
-			var alpha = (range_max - range_min) / (domain_max - domain_min);
-			var beta = range_max - alpha * domain_max;
-			//return function for linear transormation (y = a * x + b)
-			return function(x){
-				return alpha * x + beta;
-			}
-		};
-		
-		// function to draw canvas object
-		function draw() {
-			var canvas = document.getElementById("myCanvas");
-			// check whether canvas is supported by browser
-			if (canvas.getContext) {
-				var ctx = canvas.getContext("2d");
-
-				// draw y-axis
-				var days = millisec.length, range_temp = domain_temp[1] + Math.abs(domain_temp[0]);
-				ctx.beginPath();
-				ctx.moveTo(border, border);
-				ctx.lineTo(border, range_temp + border);
-				ctx.stroke();
-				// draw x-axis
-				ctx.moveTo(border, range_temp + border);
-				ctx.lineTo(days + border, range_temp + border);
-				ctx.stroke();
-
-				// plot points and connect them
-				ctx.beginPath();
-				ctx.moveTo(date_points[0] + border, temp_points[0]);
-				for (var i = 1; i < millisec.length; i++) {
-					console.log(temp_points[i], date_points[i])
-					ctx.lineTo(date_points[i] + border, height_canvas - temp_points[i] - border);
-				}
-				ctx.stroke();
-
-				// print text
-				ctx.beginPath()
-				ctx.moveTo(border, range_temp + border);
-
-			}
-		};
-
-
 	</script>
-
 	</body>
-
 </html>
-
-
