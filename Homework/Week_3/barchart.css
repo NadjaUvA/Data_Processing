@@ -1,15 +1,17 @@
 .chart rect {
-	fill: blue;
+	fill: CadetBlue;
+	stroke: DarkSlateGrey;
 }
 
 .chart text {
-	fill: black;
-	font: 10px sans-serif;
+	fill: DarkSlateGrey;
+	font: 11px arial;
 	text-anchor: middle;
 }
 
 .axis text {
-	font: 10px sans-serif;
+	fill: black;
+	font: 14px arial;
 	text-anchor: left;
 }
 
@@ -17,5 +19,10 @@
 .axis line {
 	fill: none;
 	stroke: #000;
-	shape-rendering: crispEdges;
+}
+
+#title_ {
+	fill: black;
+	font: 22px arial;
+	text-anchor: middle;
 }
