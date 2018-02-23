@@ -12,11 +12,10 @@ var months = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oc
 // define functions to scale width and height
 var y = d3.scale.linear()
 	.range([inner_height, 0]);
-
 var x = d3.scale.ordinal()
 	.domain(months)
-	.rangeRoundBands([0, inner_width], 0.1);
-	// .rangeBands([0, barWidth]);
+	.rangeBands([- 10, inner_width + 5]);
+
 
 d3.json("data.json", function(error, data) {
 
@@ -34,7 +33,6 @@ d3.json("data.json", function(error, data) {
 
 		// define domain of data values
 		y.domain([0, d3.max(data_array, function(d) { return d; })]);
-		// x.domain(data_array.map(function(d) { return d.name; }));
 
 		// select class of the bar chart and set attributes
 		var chart = d3.select(".chart")
@@ -61,18 +59,16 @@ d3.json("data.json", function(error, data) {
 			.attr("y", function(d) { return y(d) + 3 })
 			.attr("dy", ".75em")
 			.text(function(d) { return d; });
-
-		
+			
+		// initiate x axis settings
 		var xAxis = d3.svg.axis()
 			.scale(x)
-			.tickSize(1)
-			.tickPadding(13)
-				.tickValues(months)
+			.tickPadding(5)
 			.orient("bottom");
 
 		// add axes
 		d3.select(".chart").append("g")
-			.attr("class", "x axis")
+			.attr("class", "x_axis")
 			.attr("transform", "translate(" + margin.left + "," + (inner_height + margin.top) + ")")
 			.call(xAxis);
 
