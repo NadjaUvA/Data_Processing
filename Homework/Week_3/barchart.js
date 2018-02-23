@@ -105,8 +105,8 @@ d3.json("data.json", function(error, data) {
 			.call(yAxis)
 			.append("text")
 				.attr("transform", "rotate(-90)")
-				.attr("y", - 60)
-				.attr("x", - 160)
+				.attr("y", - 63)
+				.attr("x", - 130)
 				.attr("dy", ".71em")
 				.text("Average amount of rain in 0.1 mm");
 	}
