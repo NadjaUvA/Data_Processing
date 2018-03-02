@@ -1,0 +1,10 @@
+.legend rect {
+	fill: CadetBlue;
+	stroke: DarkSlateGrey;
+}
+
+.legend text {
+	fill: DarkSlateGrey;
+	font: 11px arial;
+	text-anchor: middle;
+}

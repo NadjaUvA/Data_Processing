@@ -1,0 +1,36 @@
+body {
+  font: 12px sans-serif;
+  font-style: italic;
+}
+
+.title_ {
+	font: 14px sans-serif;
+	font-style: normal;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+}
+
+.axis text {
+	font: 12px sans-serif;
+	font-weight: bold;
+}
+
+.legend text {
+	font: 10px sans-serif;
+	font-style: normal;
+}
+
+.dot {
+  stroke: #000;
+}
+
+.circle_legend {
+	stroke: black;
+	fill: GhostWhite;
+}

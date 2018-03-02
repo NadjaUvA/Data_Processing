@@ -1,0 +1,982 @@
+[
+    {
+        "region": "Americas",
+        "life_exp": "79.1",
+        "footprint": "2.8",
+        "gdp": "14357.41",
+        "country": "Argentina"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "76.4",
+        "footprint": "2.9",
+        "gdp": "4674.29",
+        "country": "Belize"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "73.7",
+        "footprint": "1.9",
+        "gdp": "2645.29",
+        "country": "Bolivia"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "77.2",
+        "footprint": "2.8",
+        "gdp": "12157.31",
+        "country": "Brazil"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "74.3",
+        "footprint": "1.4",
+        "gdp": "52737.78",
+        "country": "Canada"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "75.4",
+        "footprint": "2.2",
+        "gdp": "15253.33",
+        "country": "Chile"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "75.3",
+        "footprint": "1.9",
+        "gdp": "7885.06",
+        "country": "Colombia"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "76.9",
+        "footprint": "2.9",
+        "gdp": "9733.4",
+        "country": "Costa Rica"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "72.5",
+        "footprint": "2.1",
+        "gdp": "5967",
+        "country": "Dominican Republic"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "75.9",
+        "footprint": "3.1",
+        "gdp": "5702.17",
+        "country": "Ecuador"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "74.1",
+        "footprint": "2.3",
+        "gdp": "3921.72",
+        "country": "El Salvador"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "73.9",
+        "footprint": "3.1",
+        "gdp": "3278.63",
+        "country": "Guatemala"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "71.4",
+        "footprint": "1.9",
+        "gdp": "766.87",
+        "country": "Haiti"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "69.8",
+        "footprint": "2.5",
+        "gdp": "2395.07",
+        "country": "Honduras"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "73.9",
+        "footprint": "3.6",
+        "gdp": "5445.89",
+        "country": "Jamaica"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "81.1",
+        "footprint": "4.4",
+        "gdp": "9703.37",
+        "country": "Mexico"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "73.1",
+        "footprint": "1.5",
+        "gdp": "1779.87",
+        "country": "Nicaragua"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "62.1",
+        "footprint": "0.6",
+        "gdp": "10138.52",
+        "country": "Panama"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "72.8",
+        "footprint": "1.7",
+        "gdp": "3858.04",
+        "country": "Paraguay"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "70.8",
+        "footprint": "4.3",
+        "gdp": "6388.85",
+        "country": "Peru"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "81.7",
+        "footprint": "8.2",
+        "gdp": "9422.27",
+        "country": "Suriname"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "72.6",
+        "footprint": "4.2",
+        "gdp": "18322.32",
+        "country": "Trinidad and Tobago"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "67.5",
+        "footprint": "3",
+        "gdp": "51456.66",
+        "country": "United States of America"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "78.8",
+        "footprint": "8.2",
+        "gdp": "15127.64",
+        "country": "Uruguay"
+    },
+    {
+        "region": "Americas",
+        "life_exp": "70.1",
+        "footprint": "7.9",
+        "gdp": "12771.6",
+        "country": "Venezuela"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "71.3",
+        "footprint": "1.9",
+        "gdp": "67646.1",
+        "country": "Australia"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "75.5",
+        "footprint": "1.7",
+        "gdp": "858.93",
+        "country": "Bangladesh"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "70.8",
+        "footprint": "0.7",
+        "gdp": "2452.15",
+        "country": "Bhutan"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "74.1",
+        "footprint": "2.7",
+        "gdp": "946.48",
+        "country": "Cambodia"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "68.5",
+        "footprint": "1.6",
+        "gdp": "6264.64",
+        "country": "China"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "67.9",
+        "footprint": "1.1",
+        "gdp": "36707.77",
+        "country": "Hong Kong"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "74.6",
+        "footprint": "1.3",
+        "gdp": "1449.66",
+        "country": "India"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "65.7",
+        "footprint": "0.8",
+        "gdp": "3700.52",
+        "country": "Indonesia"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "81.4",
+        "footprint": "5.6",
+        "gdp": "46679.27",
+        "country": "Japan"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "68.8",
+        "footprint": "1",
+        "gdp": "10834.66",
+        "country": "Malaysia"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "74.4",
+        "footprint": "3.7",
+        "gdp": "4377.24",
+        "country": "Mongolia"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "67.3",
+        "footprint": "1.2",
+        "gdp": "1421.5",
+        "country": "Myanmar"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "68.7",
+        "footprint": "2.3",
+        "gdp": "685.5",
+        "country": "Nepal"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "83.2",
+        "footprint": "5",
+        "gdp": "39504.96",
+        "country": "New Zealand"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "75.4",
+        "footprint": "3.4",
+        "gdp": "1266.38",
+        "country": "Pakistan"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "67.5",
+        "footprint": "1.2",
+        "gdp": "2604.66",
+        "country": "Philippines"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "81.3",
+        "footprint": "5.7",
+        "gdp": "24453.97",
+        "country": "South Korea"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "65.5",
+        "footprint": "1.4",
+        "gdp": "3350.69",
+        "country": "Sri Lanka"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "82.1",
+        "footprint": "9.3",
+        "gdp": "5917.92",
+        "country": "Thailand"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "83.6",
+        "footprint": "8.8",
+        "gdp": "3158.42",
+        "country": "Vanuatu"
+    },
+    {
+        "region": "Asia Pacific",
+        "life_exp": "68.6",
+        "footprint": "6.1",
+        "gdp": "1754.55",
+        "country": "Vietnam"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "81.3",
+        "footprint": "5",
+        "gdp": "48324.25",
+        "country": "Austria"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "82.2",
+        "footprint": "3.7",
+        "gdp": "44731.22",
+        "country": "Belgium"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "81.2",
+        "footprint": "5.3",
+        "gdp": "28868.27",
+        "country": "Cyprus"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "82.6",
+        "footprint": "5.8",
+        "gdp": "57636.13",
+        "country": "Denmark"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "79.8",
+        "footprint": "5.5",
+        "gdp": "47415.56",
+        "country": "Finland"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "80.4",
+        "footprint": "4.9",
+        "gdp": "40850.35",
+        "country": "France"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "80.4",
+        "footprint": "5.9",
+        "gdp": "44010.93",
+        "country": "Germany"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "82.2",
+        "footprint": "6.4",
+        "gdp": "22242.68",
+        "country": "Greece"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "79.8",
+        "footprint": "4.2",
+        "gdp": "44258.84",
+        "country": "Iceland"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "81",
+        "footprint": "6.1",
+        "gdp": "48976.93",
+        "country": "Ireland"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "81.8",
+        "footprint": "5.1",
+        "gdp": "34844.5",
+        "country": "Italy"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "80.5",
+        "footprint": "5.6",
+        "gdp": "105447.09",
+        "country": "Luxembourg"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "80.6",
+        "footprint": "5.3",
+        "gdp": "21176.31",
+        "country": "Malta"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "80.2",
+        "footprint": "4.4",
+        "gdp": "49474.71",
+        "country": "Netherlands"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "82.7",
+        "footprint": "4.6",
+        "gdp": "101563.7",
+        "country": "Norway"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "81.8",
+        "footprint": "7.3",
+        "gdp": "20577.4",
+        "country": "Portugal"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "80.3",
+        "footprint": "3.9",
+        "gdp": "28647.84",
+        "country": "Spain"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "80.4",
+        "footprint": "7.4",
+        "gdp": "57134.08",
+        "country": "Sweden"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "80.5",
+        "footprint": "4.4",
+        "gdp": "83208.69",
+        "country": "Switzerland"
+    },
+    {
+        "region": "Europe",
+        "life_exp": "81.1",
+        "footprint": "15.8",
+        "gdp": "41294.51",
+        "country": "United Kingdom"
+    },
+    {
+        "region": "Middle East and North Africa",
+        "life_exp": "72.6",
+        "footprint": "1.2",
+        "gdp": "690.84",
+        "country": "Afghanistan"
+    },
+    {
+        "region": "Middle East and North Africa",
+        "life_exp": "74.3",
+        "footprint": "2.1",
+        "gdp": "5583.62",
+        "country": "Algeria"
+    },
+    {
+        "region": "Middle East and North Africa",
+        "life_exp": "73.4",
+        "footprint": "1.7",
+        "gdp": "3226.13",
+        "country": "Egypt"
+    },
+    {
+        "region": "Middle East and North Africa",
+        "life_exp": "81.9",
+        "footprint": "6.2",
+        "gdp": "7710.51",
+        "country": "Iran"
+    },
+    {
+        "region": "Middle East and North Africa",
+        "life_exp": "69",
+        "footprint": "1.9",
+        "gdp": "6649.25",
+        "country": "Iraq"
+    },
+    {
+        "region": "Middle East and North Africa",
+        "life_exp": "74.7",
+        "footprint": "3.3",
+        "gdp": "32818.86",
+        "country": "Israel"
+    },
+    {
+        "region": "Middle East and North Africa",
+        "life_exp": "74.6",
+        "footprint": "2.3",
+        "gdp": "9729.28",
+        "country": "Lebanon"
+    },
+    {
+        "region": "Middle East and North Africa",
+        "life_exp": "74.8",
+        "footprint": "2.8",
+        "gdp": "2931.4",
+        "country": "Morocco"
+    },
+    {
+        "region": "Middle East and North Africa",
+        "life_exp": "70.7",
+        "footprint": "2.2",
+        "gdp": "21533.81",
+        "country": "Oman"
+    },
+    {
+        "region": "Middle East and North Africa",
+        "life_exp": "63.3",
+        "footprint": "1",
+        "gdp": "2782.91",
+        "country": "Palestine"
+    },
+    {
+        "region": "Middle East and North Africa",
+        "life_exp": "78.8",
+        "footprint": "3.8",
+        "gdp": "2079.99",
+        "country": "Syria"
+    },
+    {
+        "region": "Middle East and North Africa",
+        "life_exp": "76.3",
+        "footprint": "7.5",
+        "gdp": "4187.54",
+        "country": "Tunisia"
+    },
+    {
+        "region": "Middle East and North Africa",
+        "life_exp": "59.7",
+        "footprint": "0.8",
+        "gdp": "10646.04",
+        "country": "Turkey"
+    },
+    {
+        "region": "Middle East and North Africa",
+        "life_exp": "70.4",
+        "footprint": "1.5",
+        "gdp": "1289.03",
+        "country": "Yemen"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "77.3",
+        "footprint": "2.2",
+        "gdp": "4247.49",
+        "country": "Albania"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "69",
+        "footprint": "0.9",
+        "gdp": "3565.52",
+        "country": "Armenia"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "69.7",
+        "footprint": "1.9",
+        "gdp": "6721.83",
+        "country": "Belarus"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "74.6",
+        "footprint": "1.6",
+        "gdp": "4494.64",
+        "country": "Bosnia and Herzegovina"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "77",
+        "footprint": "3.9",
+        "gdp": "7333.36",
+        "country": "Bulgaria"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "68.2",
+        "footprint": "2.3",
+        "gdp": "13235.98",
+        "country": "Croatia"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "74.5",
+        "footprint": "2.7",
+        "gdp": "19640.93",
+        "country": "Czech Republic"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "74.3",
+        "footprint": "2.7",
+        "gdp": "17490.99",
+        "country": "Estonia"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "75.9",
+        "footprint": "4.1",
+        "gdp": "4142.87",
+        "country": "Georgia"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "76.9",
+        "footprint": "4.4",
+        "gdp": "12819.71",
+        "country": "Hungary"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "78.2",
+        "footprint": "5.2",
+        "gdp": "12120.31",
+        "country": "Kazakhstan"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "74.9",
+        "footprint": "2.9",
+        "gdp": "1177.97",
+        "country": "Kyrgyzstan"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "70.3",
+        "footprint": "2.8",
+        "gdp": "13775.26",
+        "country": "Latvia"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "74.4",
+        "footprint": "2.2",
+        "gdp": "14342.52",
+        "country": "Lithuania"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "76.2",
+        "footprint": "3.1",
+        "gdp": "4709.51",
+        "country": "Macedonia"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "75.8",
+        "footprint": "3.8",
+        "gdp": "6586.72",
+        "country": "Montenegro"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "80",
+        "footprint": "5.8",
+        "gdp": "13142.05",
+        "country": "Poland"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "75.1",
+        "footprint": "3.3",
+        "gdp": "8577.29",
+        "country": "Romania"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "70.9",
+        "footprint": "5.1",
+        "gdp": "14078.83",
+        "country": "Russia"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "72.8",
+        "footprint": "5.8",
+        "gdp": "5659.38",
+        "country": "Serbia"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "73.9",
+        "footprint": "3.3",
+        "gdp": "17207.28",
+        "country": "Slovakia"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "68.6",
+        "footprint": "5.6",
+        "gdp": "22477.6",
+        "country": "Slovenia"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "69.5",
+        "footprint": "5.7",
+        "gdp": "962.44",
+        "country": "Tajikistan"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "76.2",
+        "footprint": "6.9",
+        "gdp": "6797.72",
+        "country": "Turkmenistan"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "73.6",
+        "footprint": "6.3",
+        "gdp": "3855.42",
+        "country": "Ukraine"
+    },
+    {
+        "region": "Post-communist",
+        "life_exp": "65.3",
+        "footprint": "5.5",
+        "gdp": "1719.04",
+        "country": "Uzbekistan"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "74",
+        "footprint": "3.5",
+        "gdp": "807.69",
+        "country": "Benin"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "62.8",
+        "footprint": "1",
+        "gdp": "6935.59",
+        "country": "Botswana"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "58.4",
+        "footprint": "1",
+        "gdp": "673.03",
+        "country": "Burkina Faso"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "60.3",
+        "footprint": "1",
+        "gdp": "244.2",
+        "country": "Burundi"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "54.3",
+        "footprint": "0.9",
+        "gdp": "1222.19",
+        "country": "Cameroon"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "62.6",
+        "footprint": "1",
+        "gdp": "972.68",
+        "country": "Chad"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "52.1",
+        "footprint": "1.2",
+        "gdp": "750.31",
+        "country": "Comoros"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "60.2",
+        "footprint": "1.2",
+        "gdp": "1281.38",
+        "country": "Cote d'Ivoire"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "63.5",
+        "footprint": "1.3",
+        "gdp": "1586.78",
+        "country": "Djibouti"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "60.1",
+        "footprint": "0.8",
+        "gdp": "469.79",
+        "country": "Ethiopia"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "53.7",
+        "footprint": "1.4",
+        "gdp": "10642.43",
+        "country": "Gabon"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "65.4",
+        "footprint": "1.2",
+        "gdp": "1641.83",
+        "country": "Ghana"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "64",
+        "footprint": "2.5",
+        "gdp": "487.35",
+        "country": "Guinea"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "61",
+        "footprint": "2",
+        "gdp": "1184.92",
+        "country": "Kenya"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "63.1",
+        "footprint": "0.9",
+        "gdp": "1158.8",
+        "country": "Lesotho"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "57.1",
+        "footprint": "1.2",
+        "gdp": "414.19",
+        "country": "Liberia"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "61",
+        "footprint": "1.3",
+        "gdp": "270.09",
+        "country": "Malawi"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "62.6",
+        "footprint": "2.5",
+        "gdp": "1282.79",
+        "country": "Mauritania"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "58",
+        "footprint": "1.2",
+        "gdp": "9113.64",
+        "country": "Mauritius"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "63.3",
+        "footprint": "2",
+        "gdp": "564.81",
+        "country": "Mozambique"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "60",
+        "footprint": "1.6",
+        "gdp": "5679.96",
+        "country": "Namibia"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "54.6",
+        "footprint": "1.2",
+        "gdp": "393.64",
+        "country": "Niger"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "48.9",
+        "footprint": "1.7",
+        "gdp": "2739.85",
+        "country": "Nigeria"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "64.2",
+        "footprint": "3.8",
+        "gdp": "3191.16",
+        "country": "Republic of Congo"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "61.3",
+        "footprint": "2.2",
+        "gdp": "667.41",
+        "country": "Rwanda"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "56.3",
+        "footprint": "3.3",
+        "gdp": "1019.27",
+        "country": "Senegal"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "57.7",
+        "footprint": "1.4",
+        "gdp": "618.95",
+        "country": "Sierra Leone"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "55.8",
+        "footprint": "0.8",
+        "gdp": "7592.16",
+        "country": "South Africa"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "48.9",
+        "footprint": "2",
+        "gdp": "3988.67",
+        "country": "Swaziland"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "49.8",
+        "footprint": "1.2",
+        "gdp": "827.53",
+        "country": "Tanzania"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "50.8",
+        "footprint": "1.3",
+        "gdp": "580.5",
+        "country": "Togo"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "59.2",
+        "footprint": "1.4",
+        "gdp": "656.4",
+        "country": "Uganda"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "58.6",
+        "footprint": "1.1",
+        "gdp": "1686.62",
+        "country": "Zambia"
+    },
+    {
+        "region": "Sub Saharan Africa",
+        "life_exp": "50.8",
+        "footprint": "1.5",
+        "gdp": "850.83",
+        "country": "Zimbabwe"
+    }
+]
