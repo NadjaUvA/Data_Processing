@@ -1,4 +1,4 @@
-// set width and height of scatterplot
+// set width, height and margins of scatterplot
 var width = 700, height = 450;
 var margin = {top: 60, right: 40, bottom: 40, left: 70},
 			inner_width = width - margin.left - margin.right,
@@ -9,22 +9,23 @@ var y = d3.scale.linear()
 	.range([inner_height, 0]);
 var x = d3.scale.linear()
 	.range([0, inner_width]);
+
+// define ordinal scale for the color range
 var z = d3.scale.ordinal()
-	.range(["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f", "#e5c494"]);
+	.range(["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", 
+		"#ffd92f", "#e5c494"]);
 
-var color = d3.scale.category10();
-
+// create axes
 var xAxis = d3.svg.axis()
 	.scale(x)
 	.orient("bottom");
-
 var yAxis = d3.svg.axis()
 	.scale(y)
 	.orient("left");
 
 d3.json("hpidata.json", function(error, data) {
 
-	// return error if problem
+	// return error if problem arrises
 	if (error) {
 		return alert(error);
 	}
@@ -40,13 +41,13 @@ d3.json("hpidata.json", function(error, data) {
 	});
 	var countries = d3.map(data_array, function(d) { return d.region; } ).keys();
 
-	// define domain of data values
+	// define the domain of the data values
 	x.domain([0, d3.max(data_array, function(d) { return d.gdp; } )]);
 	y.domain([-2 + d3.min(data_array, function(d) { return d.life_exp; } ), 
 		d3.max(data_array, function(d) { return d.life_exp + 5; } )]);
 	z.domain(countries);
 
-	// add title
+	// add the title of the plot
 	d3.select(".scatterplot").append("text")
 	.attr("class", "title_")
 	.attr("y", margin.top / 2)
@@ -54,13 +55,14 @@ d3.json("hpidata.json", function(error, data) {
 	.style("text-anchor", "middle")
 	.text("The relationship of life expectancy, GDP and ecological footprint per country (2016)");
 
-	// select class of the bar chart and set attributes
+	// set attributes of the plot
 	var scatterplot = d3.select(".scatterplot")
 		.attr("width", width)
 		.attr("height", height)
 		.append("g")
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+	// set specifications for x-axis
 	scatterplot.append("g")
 		.attr("class", "x axis")
 		.attr("transform", "translate(0," + inner_height + ")")
@@ -72,6 +74,7 @@ d3.json("hpidata.json", function(error, data) {
 		.style("text-anchor", "end")
 		.text("GDP per capita in $PPP/1000");
 
+	// set specifications for y-axis
 	scatterplot.append("g")
 		.attr("class", "y axis")
 		.call(yAxis)
@@ -83,11 +86,12 @@ d3.json("hpidata.json", function(error, data) {
 		.style("text-anchor", "end")
 		.text("Life expectancy in years");
 
-	// Define the div for the tooltip
+	// define the div for the tooltip
 	var div = d3.select(".container").append("div")	
     	.attr("class", "tooltip")				
     	.style("opacity", 0);
 
+    // plot the data with dots
 	scatterplot.selectAll(".dot")
 		.data(data)
 		.enter().append("circle")
@@ -96,6 +100,8 @@ d3.json("hpidata.json", function(error, data) {
 		.attr("cx", function(d) { return x(d.gdp); })
 		.attr("cy", function(d) { return y(d.life_exp); })
 		.style("fill", function(d) { return z(d.region); })
+
+		// add interactivity with extra information
 		.on("mouseover", function(d) {	
             div.transition()		
                 .duration(200)		
@@ -110,10 +116,10 @@ d3.json("hpidata.json", function(error, data) {
                 .duration(500)		
                 .style("opacity", 0) });
 
-	// select class of the bar chart and set attributes
+	// initiate the legend
 	var legend = scatterplot.append("g").attr("class", "legend");
 
-	// make rectangles and set colors
+	// create the colored rectangles in the legend
 	legend.selectAll("rect")
 		.data(d3.map(data_array, function(d) { return d.region; } ).keys())
 		.enter().append("rect")
@@ -124,6 +130,7 @@ d3.json("hpidata.json", function(error, data) {
 	    .style("fill", function(d) { return z(d); })
 	    .style("stroke", "#000");
 
+	// add the scale of the circles to the legend
 	legend.selectAll("circle")
 		.data([1, 5, 10])
 		.enter().append("circle")
@@ -132,7 +139,7 @@ d3.json("hpidata.json", function(error, data) {
 		.attr("cx", 446.5)
 		.attr("cy", function(d, i) { return (d + i) * 3 + 287; });
 	
-	// add text to rectangles and circles
+	// add text to the rectangles and circles of the legend
 	legend.selectAll("text")
 		.data(countries.concat(["Ecological footprint of 1", 
 			"Ecological footprint of 5", "Ecological footprint of 10"]))
