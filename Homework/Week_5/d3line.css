@@ -63,3 +63,10 @@ body {
 .dropdown:hover .dropbtn {
     background-color: CornflowerBlue;
 } 
+
+.information {
+	font: 16px sans-serif;
+	font-style: normal;
+	position: relative;
+	display: block;
+}
