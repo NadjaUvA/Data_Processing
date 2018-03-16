@@ -1,0 +1,62 @@
+[
+    {
+        "country": "BEL",
+        "young": "1.901534247",
+        "working": "7.301749183",
+        "elderly": "1.975155452"
+    },
+    {
+        "country": "DEU",
+        "young": "10.61500158",
+        "working": "52.84799926",
+        "elderly": "17.14799916"
+    },
+    {
+        "country": "DNK",
+        "young": "0.973132849",
+        "working": "3.62853133",
+        "elderly": "1.013267821"
+    },
+    {
+        "country": "FRA",
+        "young": "11.75771194",
+        "working": "40.57889247",
+        "elderly": "11.44953559"
+    },
+    {
+        "country": "GBR",
+        "young": "11.23998734",
+        "working": "41.2723364",
+        "elderly": "10.72561626"
+    },
+    {
+        "country": "IRL",
+        "young": "1.007699959",
+        "working": "3.017300171",
+        "elderly": "0.56809987"
+    },
+    {
+        "country": "LUX",
+        "young": "0.091199999",
+        "working": "0.370699961",
+        "elderly": "0.074999998"
+    },
+    {
+        "country": "NLD",
+        "young": "2.86399749",
+        "working": "11.06874699",
+        "elderly": "2.871683836"
+    },
+    {
+        "country": "NOR",
+        "young": "0.92899992",
+        "working": "3.348999652",
+        "elderly": "0.80199992"
+    },
+    {
+        "country": "SWE",
+        "young": "1.58100048",
+        "working": "6.115999739",
+        "elderly": "1.913000078"
+    }
+]
