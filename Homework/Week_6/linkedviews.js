@@ -309,7 +309,7 @@ window.onload = function() {
 				.style("stroke", function(d, i) {return colors(i); });
 		};
 
-		update_linegraph(NLD);
+		update_linegraph(DEU);
 
 	};
 
