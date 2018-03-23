@@ -5,7 +5,7 @@ function PlotGraph() {
 
 	// set width, height and margins of scatterplot
 	var width = 800, height = 550;
-	var margin = {top: 70, right: 90, bottom: 70, left: 90},
+	var margin = {top: 150, right: 90, bottom: 70, left: 90},
 				inner_width = width - margin.left - margin.right,
 				inner_height = height - margin.top - margin.bottom;
 
@@ -285,6 +285,7 @@ function PlotGraph() {
 					// find position of circles and text
 					d3.selectAll(".mouse-per-line_" + country)
 						.attr("transform", function(d, i) {
+							console.log(d);
 							var xDate = x.invert(mouse[0]),
 								bisect = d3.bisector(function(h) { return h; }).right;
 								idx = bisect(date, xDate);

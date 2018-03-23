@@ -1,8 +1,72 @@
+			/////////////////////////////////////////////////////////
+
+			// // add the x-axis of the line graph
+			// linegraph.append("g")
+			// 	.attr("class", "x axis")
+			// 	.attr("transform", "translate(0," + inner_height + ")")
+			// 	.call(xAxis);
+
+			// // add the y-axis of the line graph
+			// linegraph.append("g")
+			// 	.attr("class", "y axis")
+			// 	.call(yAxis)
+			// 	.append("text")
+			// 	.attr("transform", "rotate(-90)")
+			// 	.attr("y", - 40)
+			// 	.attr( "dy", ".71em")
+			// 	.style("text-anchor", "end")
+			// 	.text("Percentage of total population");
+			
+			// join new data with old elements, if any
+			// var graph = linegraph.selectAll(".graph")
+			// 	.data(country)
+			// 	.attr("class", "graph")
+
+			// updateLines = graph.selectAll("path").transition()
+				
+			// // update old elements as needed
+			// graph.attr("class", "update").transition()
+
+			// // apply operations to both entered elements and update selection
+			// updateLines
+			// 	.attr("class", "enter").transition()
+			// 	.attr("d", function(d) { return line(d); })
+			// 	.style("fill", "none")
+			// 	.style("stroke-width", 3)
+			// 	.style("stroke", function(d, i) {return colors(i); });
+
+			// // apply operations to both entered elements and update selection
+			// graph.enter().append("g")
+			// 	.append("path")
+			// 	.attr("class", "enter")
+			// 	.attr("d", function(d) { return line(d); })
+			// 	.style("fill", "none")
+			// 	.style("stroke-width", 3)
+			// 	.style("stroke", function(d, i) {return colors(i); });
+
+			// apply operations to both entered elements and update selection
+			// graph.select("path")
+			// 	.attr("d", function(d) { return line(d); })
+			// 	.style("fill", "none")
+			// 	.style("stroke-width", 3)
+			// 	.style("stroke", function(d, i) {return colors(i); })
+			// .enter().append("g")
+			// 	.append("path")
+			// 	.attr("class", "enter")
+			// 	.attr("d", function(d) { return line(d); })
+			// 	.style("fill", "none")
+			// 	.style("stroke-width", 3)
+			// 	.style("stroke", function(d, i) {return colors(i); });
+
+			// // apply operations to both entered elements and update selection
+			// graph.exit()
+			// 	.remove();
+
 window.onload = function() {
 
 	// set width, height and margins of line graph
-	var width = 650, height = 350;
-	var margin = {top: 50, right: 150, bottom: 70, left: 60},
+	var width = 900, height = 400;
+	var margin = {top: 40, right: 10, bottom: 40, left: 120},
 				inner_width = width - margin.left - margin.right,
 				inner_height = height - margin.top - margin.bottom;
 
@@ -26,7 +90,7 @@ window.onload = function() {
 	var x = d3.time.scale()
 		.range([0, inner_width]);
 	var colors = d3.scale.ordinal()
-		.range(["#66c2a5", "#fc8d62", "#8da0cb"]);
+		.range(["#fc8d62", "#8da0cb", "#66c2a5"]);
 
 	// create axes of line graph
 	var xAxis = d3.svg.axis()
@@ -38,7 +102,6 @@ window.onload = function() {
 
 	// set attributes of the barchart
 	var barchart = d3.select(".barchart")
-		.attr("class", "barchart")
 		.attr("width", width)
 		.attr("height", height)
 		.append("g")
@@ -72,15 +135,16 @@ window.onload = function() {
 				return {x: d.country, y: +d[value]};
 			});
 		}));
-
+		
 		// set the domains of the barchart
-		var countries = dataset[0].map(function(d) { return d.x; }),
-			total_countries = countries.length;
+		var countries = dataset[0].map(function(d) { return d.x; });
 		x_bars.domain(countries);
 		y_bars.domain([0, d3.max(dataset, function(d) { 
 			return d3.max(d, function(d) { return d.y0 + d.y; }); }) 
 		]);
 		color.domain(categories);
+
+		// console.log(countries[0].slice(0, countries[0].length));
 
 		// add x axis
 		barchart.append("g")
@@ -106,15 +170,17 @@ window.onload = function() {
 			.style("fill", function(d, i) { return color(i); });
 
 		// create rectangles of the stacked barchart
-		var rects = groups.selectAll("rect")
+		var rect = groups.selectAll("rect")
 			.data(function(d) { return d; })
-			.attr("class", "bar_rect")
 			.enter().append("rect")
 			.attr("x", function(d) { return x_bars(d.x); })
 			.attr("y", function(d) { return y_bars(d.y0 + d.y); })
 			.attr("height", function(d) { return y_bars(d.y0) - y_bars(d.y0 + d.y); })
 			.attr("width", x_bars.rangeBand)
 			.style("opacity", 0.7)
+			.on("click", function(d) {
+				update_linegraph(eval(d.x));
+			})
 			.on("mouseover", function() {
 				tooltip.style("display", null);
 				d3.select(this).style("opacity", 1) 
@@ -128,135 +194,25 @@ window.onload = function() {
 				var yPosition = d3.mouse(this)[1] - 25;
 				tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
 				tooltip.select("text").text(d3.format(".2f")(d.y) + " million");
-			})
-			.on("click", function(d, i) {
-				var name = countries[i];
-				update_linegraph(eval(d.x), name);
-				linegraph_values(name);
 			});
-
-		function update_barchart(countries) {
-
-			var selected_dataset = [];
-			for (var i = 0, n = categories.length; i < n; i++) {
-				var data_array = [];
-				for (var j = 0, n2 = total_countries; j < n2; j++) {
-					var country_check = countries.includes((dataset[i][j.toString()]).x);
-					if (country_check) {
-						data_array.push(dataset[i][j.toString()]);
-					};
-				};
-				selected_dataset.push(data_array);
-			};
-
-			// define the domains of the data values
-			x_bars.rangeRoundBands([0, inner_width], Math.max(0.2, 0.9 - (countries.length * 0.1)))
-				.domain(countries);
-			y_bars.domain([0, d3.max(selected_dataset, function(d) { 
-				return d3.max(d, function(d) { return d.y0 + d.y; }); }) 
-			]);
-
-			// update x axis
-			barchart.selectAll(".x.axis.bars")
-				.call(xAxis_bars);
-
-			// update y axis
-			barchart.selectAll(".y.axis.bars")
-				.call(yAxis_bars);
-
-			d3.selectAll("rect.bar_rect").transition().style("opacity", "0").remove();
-
-			var groups = barchart.selectAll("barpart")
-				.data(selected_dataset)
-				.enter().append("g")
-				.attr("class", "barpart")
-				.style("fill", function(d, i) { return color(i); });
-
-			// create tooltip
-			var tooltip = barchart.append("g")
-				.attr("class", "tooltip1")
-				.style("display", "none");
-
-			tooltip.append("rect")
-				.attr("width", 80)
-				.attr("height", 20)
-				.attr("fill", "white")
-				.style("opacity", 0.5)
-				.style('display', 'block');
-
-			tooltip.append("text")
-				.attr("x", 40)
-				.attr("dy", "1.2em")
-				.style("text-anchor", "middle")
-				.attr("font-size", "12px")
-				.attr("font-weight", "bold")
-				.style('display', 'block');
-
-			// create rectangles of the stacked barchart
-			var rects = groups.selectAll("rect")
-				.data(function(d) { return d; })
-				.enter().append("rect")
-				.attr("class", "bar_rect");
-
-			rects.attr("x", function(d) { return x_bars(d.x); })
-				.attr("y", function(d) { return y_bars(d.y0 + d.y); })
-				.attr("height", function(d) { return y_bars(d.y0) - y_bars(d.y0 + d.y); })
-				.attr("width", x_bars.rangeBand)
-				.style("opacity", 0.7)
-				.on("mouseover", function() {
-					tooltip.style("display", null);
-					d3.select(this).style("opacity", 1) 
-				})
-				.on("mouseout", function() { 
-					tooltip.style("display", "none");
-					d3.select(this).style("opacity", 0.7) 
-				})
-				.on("mousemove", function(d) {
-					var xPosition = d3.mouse(this)[0] -  15;
-					var yPosition = d3.mouse(this)[1] - 25;
-					tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-					tooltip.select("text").text(d3.format(".2f")(d.y) + " million");
-				})
-				.on("click", function(d, i) {
-					var name = countries[i];
-					update_linegraph(eval(d.x), name);
-					linegraph_values(name);
-				})
-		};
-		
-		// when input field is changed
-		$("input").change(function(){
-			var selected_countries = [];
-			for (var i = 0, n =countries.length; i < n; i++) {
-				var country_checked = document.getElementById("checkbox" + i).checked;
-				if (country_checked) {
-					selected_countries.push(document.getElementsByClassName("dropdown-item")[i].id);
-				};
-			};
-			// update barcharts
-			groups.transition().style("opacity", "0").remove();
-			update_barchart(selected_countries);
-		});
 
 		// create tooltip
 		var tooltip = barchart.append("g")
-			.attr("class", "tooltip1")
+			.attr("class", "tooltip")
 			.style("display", "none");
 
 		tooltip.append("rect")
 			.attr("width", 80)
 			.attr("height", 20)
 			.attr("fill", "white")
-			.style("opacity", 0.5)
-			.style('display', 'block');
+			.style("opacity", 0.5);
 
 		tooltip.append("text")
 			.attr("x", 40)
 			.attr("dy", "1.2em")
 			.style("text-anchor", "middle")
 			.attr("font-size", "12px")
-			.attr("font-weight", "bold")
-			.style('display', 'block');
+			.attr("font-weight", "bold");
 
 		// add legend to the barchart
 		var legend = barchart.selectAll(".legend")
@@ -285,11 +241,12 @@ window.onload = function() {
 				}
 			});
 
-		// add the title of the barchart
+		// add the title of the plot
 		barchart.append("text")
 			.attr("class", "title_")
-			.attr("x", inner_width / 2)
-			.attr("y", - margin.top / 1.5)
+			.attr("transform", "rotate(-90)")
+			.attr("x", - inner_height / 2)
+			.attr("y", - margin.left / 1.5)
 			.attr( "dy", ".71em")
 			.style("text-anchor", "middle")
 			.text("The composition of the population in 2013");
@@ -345,14 +302,15 @@ window.onload = function() {
 			}
 		};
 
-		// add the title of the linechart
+		// add the title of the plot
 		linegraph.append("text")
 			.attr("class", "title_")
-			.attr("x", inner_width / 2)
-			.attr("y", - margin.top / 1.5)
+			.attr("transform", "rotate(-90)")
+			.attr("x", - inner_height / 2)
+			.attr("y", - margin.left / 1.5)
 			.attr( "dy", ".71em")
 			.style("text-anchor", "middle")
-			.text("Development of the composition of the population in NLD");
+			.text("Development of the composition of the population");
 
 		// define function to draw lines
 		var line = d3.svg.line()
@@ -360,77 +318,8 @@ window.onload = function() {
 			.x(function(d, i) { return x(year[i]); })
 			.y(function(d) { return y(d); });
 
-		// determine domain of y
-		var domain_values = y_domain(NLD);
+		function update_linegraph(country) {
 
-		// define the domains of the data values
-		x.domain([year[0], year[(year.length - 1)]]);
-		y.domain([(domain_values[0] - 1), (domain_values[1] + 1)]);
-		colors.domain(categories);
-
-		// add the x-axis of the line graph
-		linegraph.append("g")
-			.attr("class", "x axis")
-			.attr("transform", "translate(0," + inner_height + ")")
-			.call(xAxis);
-
-		// add the y-axis of the line graph
-		linegraph.append("g")
-			.attr("class", "y axis")
-			.call(yAxis)
-			.append("text")
-			.attr("transform", "rotate(-90)")
-			.attr("y", - 40)
-			.attr( "dy", ".71em")
-			.style("text-anchor", "end")
-			.text("Percentage of total population");
-
-		// add legend to the linegraph
-		var legend_linegraph = linegraph.selectAll(".legend")
-			.data(categories)
-			.enter().append("g")
-			.attr("class", "legend")
-			.attr("transform", function(d, i) { return "translate(30," + i * 19 + ")"; });
-
-		legend_linegraph.append("rect")
-			.attr("x", inner_width - 18)
-			.attr("width", 18)
-			.attr("height", 18)
-			.style("fill", function(d, i) { return color(i); })
-			.style("opacity", 0.7);
-
-		legend_linegraph.append("text")
-			.attr("x", inner_width + 5)
-			.attr("y", 9)
-			.attr("dy", ".35em")
-			.style("text-anchor", "start")
-			.text(function(d, i) {
-				switch (i) {
-					case 0: return "Young population";
-					case 1: return "Working force";
-					case 2: return "Elderly population";
-				}
-			});
-			
-		// join new data with old elements, if any
-		var graph = linegraph.selectAll(".graph")
-			.data(NLD)
-			.attr("class", "graph")
-
-		// apply operations to both entered elements and update selection
-		graph.enter().append("g")
-			.append("path")
-			.attr("class", "line")
-			.attr("d", function(d) { return line(d); })
-			.style("fill", "none")
-			.style("stroke-width", 3)
-			.style("stroke", function(d, i) {return colors(i); });
-
-		// add interavtivity with data values
-		linegraph_values("NLD");
-
-		function y_domain(country) {
-			
 			// determine domain of y
 			var value = 0, minimum = 0, maximum = 0;
 			for (var i = 0, n1 = country.length; i < n1; i++){
@@ -451,49 +340,78 @@ window.onload = function() {
 					}
 				}
 			};
-			return [minimum, maximum];
-		}
-
-		function update_linegraph(country, name) {
-
-			// determine domain of y
-			var domain_values = y_domain(country);
 
 			// define the domains of the data values
-			y.domain([(domain_values[0] - 1), (domain_values[1] + 1)]);
+			x.domain([year[0], year[(year.length - 1)]]);
+			y.domain([(minimum - 1), (maximum + 1)]);
+			colors.domain(categories);
 
-			d3.selectAll("path.line").remove();
+			// add the x-axis of the line graph
+			linegraph.append("g")
+				.attr("class", "x axis")
+				.attr("transform", "translate(0," + inner_height + ")")
+				.call(xAxis);
 
+			// add the y-axis of the line graph
+			linegraph.append("g")
+				.attr("class", "y axis")
+				.call(yAxis)
+				.append("text")
+				.attr("transform", "rotate(-90)")
+				.attr("y", - 40)
+				.attr( "dy", ".71em")
+				.style("text-anchor", "end")
+				.text("Percentage of total population");
+			
 			// join new data with old elements, if any
-			var graph = linegraph.selectAll(".line")
+			var graph = linegraph.selectAll(".graph")
 				.data(country)
 				.attr("class", "graph")
 
+			updateLines = graph.selectAll("path").transition()
+				
+			// update old elements as needed
+			// graph.attr("class", "update").transition()
+
 			// apply operations to both entered elements and update selection
-			graph.enter().append("g")
-				.append("path")
-				.attr("class", "line")
-				.transition()
+			updateLines
+				.attr("class", "enter").transition()
 				.attr("d", function(d) { return line(d); })
 				.style("fill", "none")
 				.style("stroke-width", 3)
 				.style("stroke", function(d, i) {return colors(i); });
 
-			// change the y axis
-			linegraph.selectAll(".y.axis")
-				.transition()
-				.call(yAxis)
+			// apply operations to both entered elements and update selection
+			graph.enter().append("g")
+				.append("path")
+				.attr("class", "enter")
+				.attr("d", function(d) { return line(d); })
+				.style("fill", "none")
+				.style("stroke-width", 3)
+				.style("stroke", function(d, i) {return colors(i); });
 
-			// change title
-			linegraph.select(".title_")
-				.text("Development of the composition of the population in " + name);
+			// apply operations to both entered elements and update selection
+			graph.exit()
+				.remove();
+
+			linegraph_values("NLD");
 		};
+
+		update_linegraph(NLD);
 
 		function linegraph_values(country) {
 
 			// add a group for the interactive effects
 			var mouseG = linegraph.append("g")
 				.attr("class", "mouse-over-effects_" + country)
+
+			// create a black vertical line following the mouse
+			mouseG.append("path")
+				.attr("class", "mouse-line_" + country)
+				.style("stroke", "black")
+				.style("stroke-width", "1px")
+				.style("opacity", "0");
+			var lines = document.getElementsByClassName(".enter");
 
 			// add data for the graph
 			var mousePerLine = mouseG.selectAll(".mouse-per-line_" + country)
@@ -504,14 +422,14 @@ window.onload = function() {
 			// initiate text to show the data values
 			mousePerLine.append("text")
 				.attr("class", "texts_" + country)
-				.style("stroke", "LightSlateGrey")
+				.style("stroke", function(d, i) { return colors[i]; })
 				.style("opacity", "0");
 
 			// initiate the circles on the graphs at data values
 			mousePerLine.append("circle")
-				.attr("class", "circles_" + country)
+				.attr("class", "texts_" + country)
 				.attr("r", 5)
-				.style("stroke", "LightSlateGrey")
+				.style("stroke", function(d, i) { return color[i]; })
 				.style("fill", "none")
 				.style("stroke-width", "1px")
 				.style("opacity", "0");
@@ -525,12 +443,14 @@ window.onload = function() {
 
 			// on mouse out hide line, circles and text
 				.on("mouseout", function () {
+					d3.select(".mouse-line_" + country).style("opacity", "0");
 					d3.selectAll(".circles_" + country).style("opacity", "0");
 					d3.selectAll(".texts_" + country).style("opacity", "0");
 				})
 
 			// show line, circles and text
 				.on("mouseover", function () {
+					d3.select(".mouse-line_" + country).style("opacity", "1");
 					d3.selectAll(".circles_" + country).style("opacity", "1");
 					d3.selectAll(".texts_" + country).style("opacity", "1");
 				})
@@ -538,38 +458,46 @@ window.onload = function() {
 			// define properties for mouse moving over canvas
 				.on("mousemove", function() {
 					var mouse = d3.mouse(this);
+					d3.select(".mouse-line_" + country)
+						.attr("d", function() {
+							var d = "M" + mouse[0] + "," + inner_height;
+							d += " " + mouse[0] + "," + 0;
+							return d;
+						});
 
 					// find position of circles and text
 					d3.selectAll(".mouse-per-line_" + country)
 						.attr("transform", function(d, i) {
+							console.log(d);
 							var xDate = x.invert(mouse[0]),
 								bisect = d3.bisector(function(h) { return h; }).right;
-								idx = bisect(year, xDate);
+								idx.bisect(year, xDate);
 
 							// save data of where the mouse is
-							var y_values = [(eval(country)[0][idx]).toFixed(2), (eval(country)[1][idx]).toFixed(2), 
-								(eval(country)[2][idx]).toFixed(2)],
+							var y_values = [eval(country)[0][idx], eval(country)[1][idx], 
+								eval(country)[2][idx]],
 								x_value = year[idx];
 
 							// set position of the circles
 							d3.selectAll(".circles_" + country)
 								.data(y_values)
 								.attr("cx", x(x_value))
-								.attr("cy", function(d, i) { return y(d); });
+								.attr("cy", function(d) { return y(d); });
 
 							// set position of text and add data value as text
 							d3.selectAll(".texts_" + country)
 								.data(y_values)
-								.attr("x", function(d, i) { 
-									if (i == 0) {
-										return x(x_value) - 40; 
-									};
-									return x(x_value) + 8; 
-								})
+								.attr("x", x(x_value) + 3)
 								.attr("y", function(d, i) { return y(d); })
 								.text(function(d) { return d; });
 						});
 				});
 		};
+
+
 	};
+
+	
+
 };
+

@@ -1,17 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
-		<link rel="stylesheet" type="text/css" href="linkedviews.css">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<script src="https://d3js.org/d3.v3.min.js"></script>
 		<script src="https://d3js.org/queue.v1.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="linkedviews.css">
 		<script src="linkedviews.js"></script>
 	</head>
 	<body>
-		<div class="container">
-			<svg class="barchart"></svg>
-			<svg class="linegraph"></svg>
+		<div class="header">
+			<h3 align="center"> The decomposition of the population into three groups: <br>the young, the working force and the elderly</h3>
 		</div>
-		<div> Assignment week 6 | Nadja van 't Hoff (11030720) </div>
-		<div class="source">Source: <a href="https://data.oecd.org/pop/population.htm#indicator-chart"> OECD Data</a></div>
+		<div class="container container-fluid text-center">
+			<div class="col-sm-2 sidenav" id="dropdown" position="relative">
+				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Countries<span class="caret"></span></button>
+				<ul class="dropdown-menu">
+					<li><a class="dropdown-item" id="BEL" href="#"><input type="checkbox" id="checkbox0"/>Belgium</a></li>
+					<li><a class="dropdown-item" id="DEU" href="#"><input type="checkbox" id="checkbox1"/>Germany</a></li>
+					<li><a class="dropdown-item" id="DNK" href="#"><input type="checkbox" id="checkbox2"/>Denmark</a></li>
+					<li><a class="dropdown-item" id="FRA" href="#"><input type="checkbox" id="checkbox3"/>France</a></li>
+					<li><a class="dropdown-item" id="GBR" href="#"><input type="checkbox" id="checkbox4"/>Great Britain</a></li>
+					<li><a class="dropdown-item" id="IRL" href="#"><input type="checkbox" id="checkbox5"/>Ireland</a></li>
+					<li><a class="dropdown-item" id="LUX" href="#"><input type="checkbox" id="checkbox6"/>Luxembourg</a></li>
+					<li><a class="dropdown-item" id="NLD" href="#"><input type="checkbox" id="checkbox7"/>Netherlands</a></li>
+					<li><a class="dropdown-item" id="NOR" href="#"><input type="checkbox" id="checkbox8"/>Norway</a></li>
+					<li><a class="dropdown-item" id="SWE" href="#"><input type="checkbox" id="checkbox9"/>Sweden</a></li>
+				</ul>
+			</div>
+			<div class="col-sm-8 text-left">
+				<p class="intro" align="left"> hoi hoi hoi hoi sfhifduiduif sd isd fidu fsdsfdu seud  usid dfuusf isudi sduf siduhsjjjjjjjjjjjjjjjjjjjjjjs sudddddddddddd usddddddddddddddddddddddddddddddddd </p>
+				<svg class="barchart"></svg>
+				<svg class="linegraph"></svg>
+				<p class: "information"> hoi hoi </p>
+			</div>
+		</div>
+		<footer class="container-fluid text-center">
+			<p class: "student-info"> Assignment week 6 | Nadja van 't Hoff (11030720) </p>
+			<p class="source">Source: <a href="https://data.oecd.org/pop/population.htm#indicator-chart"> OECD Data</a></p>
+		</footer>	
 	</body>
 </html>
