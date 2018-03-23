@@ -1,40 +1,49 @@
+/**
+* a linked view visualization consisting of two linked graphs is made
+*
+* Nadja van 't Hoff (11030720)
+*/
+
+// set width, height and margins
+var width = 650, height = 350;
+var margin = {top: 50, right: 150, bottom: 70, left: 60},
+			inner_width = width - margin.left - margin.right,
+			inner_height = height - margin.top - margin.bottom;
+
+// define functions to scale width and height for the barchart
+var y_bars = d3.scale.linear()
+	.range([inner_height, 0]);
+var x_bars = d3.scale.ordinal()
+	.rangeRoundBands([0, inner_width], 0.2);
+
+// create axes of the barchart
+var y_axis_bars = d3.svg.axis()
+	.scale(y_bars)
+	.orient("left");
+var x_axis_bars = d3.svg.axis()
+	.scale(x_bars)
+	.orient("bottom");
+
+// define functions to scale width and height for the linegraph
+var y = d3.scale.linear()
+	.range([inner_height, 0]);
+var x = d3.time.scale()
+	.range([0, inner_width]);
+
+// create axes of the linegraph
+var x_axis = d3.svg.axis()
+	.scale(x)
+	.orient("bottom");
+var	y_axis = d3.svg.axis()
+	.scale(y)
+	.orient("left");
+
+var color = d3.scale.ordinal()
+	.range(["#66c2a5", "#fc8d62", "#8da0cb"]);
+
+var categories = ["young", "working", "elderly"];
+
 window.onload = function() {
-
-	// set width, height and margins of line graph
-	var width = 650, height = 350;
-	var margin = {top: 50, right: 150, bottom: 70, left: 60},
-				inner_width = width - margin.left - margin.right,
-				inner_height = height - margin.top - margin.bottom;
-
-	var y_bars = d3.scale.linear()
-		.range([inner_height, 0]);
-	var x_bars = d3.scale.ordinal()
-		.rangeRoundBands([0, inner_width], 0.2);
-	var color = d3.scale.ordinal()
-		.range(["#66c2a5", "#fc8d62", "#8da0cb"]);
-
-	var yAxis_bars = d3.svg.axis()
-		.scale(y_bars)
-		.orient("left");
-	var xAxis_bars = d3.svg.axis()
-		.scale(x_bars)
-		.orient("bottom");
-
-	// define functions to scale width, height and colors of line graph
-	var y = d3.scale.linear()
-		.range([inner_height, 0]);
-	var x = d3.time.scale()
-		.range([0, inner_width]);
-	var colors = d3.scale.ordinal()
-		.range(["#66c2a5", "#fc8d62", "#8da0cb"]);
-
-	// create axes of line graph
-	var xAxis = d3.svg.axis()
-		.scale(x)
-		.orient("bottom");
-	var	yAxis = d3.svg.axis()
-		.scale(y)
-		.orient("left");
 
 	// set attributes of the barchart
 	var barchart = d3.select(".barchart")
@@ -64,9 +73,7 @@ window.onload = function() {
 			return alert(error);
 		}
 
-		var categories = ["young", "working", "elderly"];
-
-		// transpose the data into layers
+		// transpose the data into layers for the barchart
 		var dataset = d3.layout.stack()(categories.map(function(value) {
 			return barchart_data.map(function(d) {
 				return {x: d.country, y: +d[value]};
@@ -82,16 +89,16 @@ window.onload = function() {
 		]);
 		color.domain(categories);
 
-		// add x axis
+		// add x axis to the barchart
 		barchart.append("g")
 			.attr("class", "x axis bars")
 			.attr("transform", "translate(0," + inner_height + ")")
-			.call(xAxis_bars);
+			.call(x_axis_bars);
 
-		// add y axis
+		// add y axis to the barchart
 		barchart.append("g")
 			.attr("class", "y axis bars")
-			.call(yAxis_bars)
+			.call(y_axis_bars)
 			.append("text")
 			.attr("transform", "rotate(-90)")
 			.attr("y", - 40)
@@ -99,6 +106,7 @@ window.onload = function() {
 			.style("text-anchor", "end")
 			.text("Population in million people");
 
+		// create groups for each series
 		var groups = barchart.selectAll("barpart")
 			.data(dataset)
 			.enter().append("g")
@@ -115,6 +123,8 @@ window.onload = function() {
 			.attr("height", function(d) { return y_bars(d.y0) - y_bars(d.y0 + d.y); })
 			.attr("width", x_bars.rangeBand)
 			.style("opacity", 0.7)
+
+			// add interactivity to the bars
 			.on("mouseover", function() {
 				tooltip.style("display", null);
 				d3.select(this).style("opacity", 1) 
@@ -134,109 +144,6 @@ window.onload = function() {
 				update_linegraph(eval(d.x), name);
 				linegraph_values(name);
 			});
-
-		function update_barchart(countries) {
-
-			var selected_dataset = [];
-			for (var i = 0, n = categories.length; i < n; i++) {
-				var data_array = [];
-				for (var j = 0, n2 = total_countries; j < n2; j++) {
-					var country_check = countries.includes((dataset[i][j.toString()]).x);
-					if (country_check) {
-						data_array.push(dataset[i][j.toString()]);
-					};
-				};
-				selected_dataset.push(data_array);
-			};
-
-			// define the domains of the data values
-			x_bars.rangeRoundBands([0, inner_width], Math.max(0.2, 0.9 - (countries.length * 0.1)))
-				.domain(countries);
-			y_bars.domain([0, d3.max(selected_dataset, function(d) { 
-				return d3.max(d, function(d) { return d.y0 + d.y; }); }) 
-			]);
-
-			// update x axis
-			barchart.selectAll(".x.axis.bars")
-				.call(xAxis_bars);
-
-			// update y axis
-			barchart.selectAll(".y.axis.bars")
-				.call(yAxis_bars);
-
-			d3.selectAll("rect.bar_rect").transition().style("opacity", "0").remove();
-
-			var groups = barchart.selectAll("barpart")
-				.data(selected_dataset)
-				.enter().append("g")
-				.attr("class", "barpart")
-				.style("fill", function(d, i) { return color(i); });
-
-			// create tooltip
-			var tooltip = barchart.append("g")
-				.attr("class", "tooltip1")
-				.style("display", "none");
-
-			tooltip.append("rect")
-				.attr("width", 80)
-				.attr("height", 20)
-				.attr("fill", "white")
-				.style("opacity", 0.5)
-				.style('display', 'block');
-
-			tooltip.append("text")
-				.attr("x", 40)
-				.attr("dy", "1.2em")
-				.style("text-anchor", "middle")
-				.attr("font-size", "12px")
-				.attr("font-weight", "bold")
-				.style('display', 'block');
-
-			// create rectangles of the stacked barchart
-			var rects = groups.selectAll("rect")
-				.data(function(d) { return d; })
-				.enter().append("rect")
-				.attr("class", "bar_rect");
-
-			rects.attr("x", function(d) { return x_bars(d.x); })
-				.attr("y", function(d) { return y_bars(d.y0 + d.y); })
-				.attr("height", function(d) { return y_bars(d.y0) - y_bars(d.y0 + d.y); })
-				.attr("width", x_bars.rangeBand)
-				.style("opacity", 0.7)
-				.on("mouseover", function() {
-					tooltip.style("display", null);
-					d3.select(this).style("opacity", 1) 
-				})
-				.on("mouseout", function() { 
-					tooltip.style("display", "none");
-					d3.select(this).style("opacity", 0.7) 
-				})
-				.on("mousemove", function(d) {
-					var xPosition = d3.mouse(this)[0] -  15;
-					var yPosition = d3.mouse(this)[1] - 25;
-					tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
-					tooltip.select("text").text(d3.format(".2f")(d.y) + " million");
-				})
-				.on("click", function(d, i) {
-					var name = countries[i];
-					update_linegraph(eval(d.x), name);
-					linegraph_values(name);
-				})
-		};
-		
-		// when input field is changed
-		$("input").change(function(){
-			var selected_countries = [];
-			for (var i = 0, n =countries.length; i < n; i++) {
-				var country_checked = document.getElementById("checkbox" + i).checked;
-				if (country_checked) {
-					selected_countries.push(document.getElementsByClassName("dropdown-item")[i].id);
-				};
-			};
-			// update barcharts
-			groups.transition().style("opacity", "0").remove();
-			update_barchart(selected_countries);
-		});
 
 		// create tooltip
 		var tooltip = barchart.append("g")
@@ -258,7 +165,22 @@ window.onload = function() {
 			.attr("font-weight", "bold")
 			.style('display', 'block');
 
-		// add legend to the barchart
+		// update the chart when input field is changed
+		$("input").change(function(){
+			var selected_countries = [];
+			for (var i = 0, n =countries.length; i < n; i++) {
+				var country_checked = document.getElementById("checkbox" + i).checked;
+				if (country_checked) {
+					selected_countries.push(document.getElementsByClassName("dropdown-item")[i].id);
+				};
+			};
+
+			// update barcharts
+			groups.transition().style("opacity", "0").remove();
+			update_barchart(selected_countries);
+		});
+
+		// add a legend to the barchart
 		var legend = barchart.selectAll(".legend")
 			.data(categories)
 			.enter().append("g")
@@ -294,7 +216,7 @@ window.onload = function() {
 			.style("text-anchor", "middle")
 			.text("The composition of the population in 2013");
 
-		// prepare data for linegraph
+		// prepare data for the linegraph
 		var bel = [], deu = [], dnk = [], fra = [], gbr = [], irl = [], lux = [], nld = [], 
 			nor = [], swe = [];
 		linegraph_data.forEach(function(d) {
@@ -310,7 +232,7 @@ window.onload = function() {
 			swe = d["SWE"];
 		});
 
-		// convert dates to Javascript dates
+		// convert years to Javascript years
 		var parseDate = d3.time.format("%Y").parse;
 		var year = bel["year"];
 		for (var i = 0, n = year.length; i < n; i++) {
@@ -345,45 +267,50 @@ window.onload = function() {
 			}
 		};
 
-		// add the title of the linechart
-		linegraph.append("text")
-			.attr("class", "title_")
-			.attr("x", inner_width / 2)
-			.attr("y", - margin.top / 1.5)
-			.attr( "dy", ".71em")
-			.style("text-anchor", "middle")
-			.text("Development of the composition of the population in NLD");
-
-		// define function to draw lines
+		// define function to draw the lines
 		var line = d3.svg.line()
 			.interpolate("basis")
 			.x(function(d, i) { return x(year[i]); })
 			.y(function(d) { return y(d); });
 
-		// determine domain of y
-		var domain_values = y_domain(NLD);
-
 		// define the domains of the data values
 		x.domain([year[0], year[(year.length - 1)]]);
+		var domain_values = y_domain(NLD, year);
 		y.domain([(domain_values[0] - 1), (domain_values[1] + 1)]);
-		colors.domain(categories);
 
-		// add the x-axis of the line graph
+		// add the x axis of the line graph
 		linegraph.append("g")
 			.attr("class", "x axis")
 			.attr("transform", "translate(0," + inner_height + ")")
-			.call(xAxis);
+			.call(x_axis);
 
-		// add the y-axis of the line graph
+		// add the y axis of the line graph
 		linegraph.append("g")
 			.attr("class", "y axis")
-			.call(yAxis)
+			.call(y_axis)
 			.append("text")
 			.attr("transform", "rotate(-90)")
 			.attr("y", - 40)
 			.attr( "dy", ".71em")
 			.style("text-anchor", "end")
 			.text("Percentage of total population");
+			
+		// join data with the elements
+		var graph = linegraph.selectAll(".graph")
+			.data(NLD)
+			.attr("class", "graph")
+
+		// draw the lines
+		graph.enter().append("g")
+			.append("path")
+			.attr("class", "line")
+			.attr("d", function(d) { return line(d); })
+			.style("fill", "none")
+			.style("stroke-width", 3)
+			.style("stroke", function(d, i) {return color(i); });
+
+		// add interactivity with data values of the linegraph
+		linegraph_values("NLD");
 
 		// add legend to the linegraph
 		var legend_linegraph = linegraph.selectAll(".legend")
@@ -411,53 +338,118 @@ window.onload = function() {
 					case 2: return "Elderly population";
 				}
 			});
-			
-		// join new data with old elements, if any
-		var graph = linegraph.selectAll(".graph")
-			.data(NLD)
-			.attr("class", "graph")
 
-		// apply operations to both entered elements and update selection
-		graph.enter().append("g")
-			.append("path")
-			.attr("class", "line")
-			.attr("d", function(d) { return line(d); })
-			.style("fill", "none")
-			.style("stroke-width", 3)
-			.style("stroke", function(d, i) {return colors(i); });
+		// add the title of the linechart
+		linegraph.append("text")
+			.attr("class", "title_")
+			.attr("x", inner_width / 2)
+			.attr("y", - margin.top / 1.5)
+			.attr( "dy", ".71em")
+			.style("text-anchor", "middle")
+			.text("Development of the composition of the population in NLD");
 
-		// add interavtivity with data values
-		linegraph_values("NLD");
+		/**
+		* updates the barchart according to the user-chosen countries
+		*/
+		function update_barchart(countries) {
 
-		function y_domain(country) {
-			
-			// determine domain of y
-			var value = 0, minimum = 0, maximum = 0;
-			for (var i = 0, n1 = country.length; i < n1; i++){
-				for (var j = 0, n2 = year.length; j < n2; j++){
-					value = country[i][j];
-					value = +value;
+			// only use selected countries in the barchart
+			var selected_dataset = [];
+			for (var i = 0, n = categories.length; i < n; i++) {
+				var data_array = [];
+				for (var j = 0, n2 = total_countries; j < n2; j++) {
+					var country_check = countries.includes((dataset[i][j.toString()]).x);
 
-					// keep track of maximum and minimum y-value for domain of y
-					if (minimum == 0 && maximum == 0) {
-						minimum = value;
-						maximum = value;
-					}
-					else if (value < minimum) { 
-						minimum = value;
-					}
-					else if (value > maximum) {
-						maximum = value;
-					}
-				}
+					// country is added to the used data if it is selected 
+					if (country_check) {
+						data_array.push(dataset[i][j.toString()]);
+					};
+				};
+				selected_dataset.push(data_array);
 			};
-			return [minimum, maximum];
-		}
+
+			// define the domains of the data values
+			x_bars.rangeRoundBands([0, inner_width], Math.max(0.2, 0.9 - (countries.length * 0.1)))
+				.domain(countries);
+			y_bars.domain([0, d3.max(selected_dataset, function(d) { 
+				return d3.max(d, function(d) { return d.y0 + d.y; }); }) 
+			]);
+
+			// update x axis
+			barchart.selectAll(".x.axis.bars")
+				.call(x_axis_bars);
+
+			// update y axis
+			barchart.selectAll(".y.axis.bars")
+				.call(y_axis_bars);
+
+			d3.selectAll("rect.bar_rect").transition().style("opacity", "0").remove();
+
+			// create groups for each series
+			var groups = barchart.selectAll("barpart")
+				.data(selected_dataset)
+				.enter().append("g")
+				.attr("class", "barpart")
+				.style("fill", function(d, i) { return color(i); });
+
+			// recreate tooltip
+			var tooltip = barchart.append("g")
+				.attr("class", "tooltip1")
+				.style("display", "none");
+
+			tooltip.append("rect")
+				.attr("width", 80)
+				.attr("height", 20)
+				.attr("fill", "white")
+				.style("opacity", 0.5)
+				.style('display', 'block');
+
+			tooltip.append("text")
+				.attr("x", 40)
+				.attr("dy", "1.2em")
+				.style("text-anchor", "middle")
+				.attr("font-size", "12px")
+				.attr("font-weight", "bold")
+				.style('display', 'block');
+
+			// create rectangles of the stacked barchart
+			var rects = groups.selectAll("rect")
+				.data(function(d) { return d; })
+				.enter().append("rect")
+				.attr("class", "bar_rect");
+
+			rects.attr("x", function(d) { return x_bars(d.x); })
+				.attr("y", function(d) { return y_bars(d.y0 + d.y); })
+				.attr("height", function(d) { return y_bars(d.y0) - y_bars(d.y0 + d.y); })
+				.attr("width", x_bars.rangeBand)
+				.style("opacity", 0.7)
+
+				// add interactivity
+				.on("mouseover", function() {
+					tooltip.style("display", null);
+					d3.select(this).style("opacity", 1) 
+				})
+				.on("mouseout", function() { 
+					tooltip.style("display", "none");
+					d3.select(this).style("opacity", 0.7) 
+				})
+				.on("mousemove", function(d) {
+					var xPosition = d3.mouse(this)[0] -  15;
+					var yPosition = d3.mouse(this)[1] - 25;
+					tooltip.attr("transform", "translate(" + xPosition + "," + yPosition + ")");
+					tooltip.select("text").text(d3.format(".2f")(d.y) + " million");
+				})
+				.on("click", function(d, i) {
+					var name = countries[i];
+					update_linegraph(eval(d.x), name);
+					linegraph_values(name);
+				});
+		};
 
 		function update_linegraph(country, name) {
 
 			// determine domain of y
-			var domain_values = y_domain(country);
+			var domain_values = y_domain(country, year);
 
 			// define the domains of the data values
 			y.domain([(domain_values[0] - 1), (domain_values[1] + 1)]);
@@ -477,7 +469,7 @@ window.onload = function() {
 				.attr("d", function(d) { return line(d); })
 				.style("fill", "none")
 				.style("stroke-width", 3)
-				.style("stroke", function(d, i) {return colors(i); });
+				.style("stroke", function(d, i) {return color(i); });
 
 			// change the y axis
 			linegraph.selectAll(".y.axis")
@@ -492,23 +484,23 @@ window.onload = function() {
 		function linegraph_values(country) {
 
 			// add a group for the interactive effects
-			var mouseG = linegraph.append("g")
+			var mouse_g = linegraph.append("g")
 				.attr("class", "mouse-over-effects_" + country)
 
 			// add data for the graph
-			var mousePerLine = mouseG.selectAll(".mouse-per-line_" + country)
+			var mouse_per_line = mouse_g.selectAll(".mouse-per-line_" + country)
 				.data(eval(country))
 				.enter().append("g")
 				.attr("class", "mouse-per-line_" + country);
 
 			// initiate text to show the data values
-			mousePerLine.append("text")
+			mouse_per_line.append("text")
 				.attr("class", "texts_" + country)
 				.style("stroke", "LightSlateGrey")
 				.style("opacity", "0");
 
 			// initiate the circles on the graphs at data values
-			mousePerLine.append("circle")
+			mouse_per_line.append("circle")
 				.attr("class", "circles_" + country)
 				.attr("r", 5)
 				.style("stroke", "LightSlateGrey")
@@ -517,7 +509,7 @@ window.onload = function() {
 				.style("opacity", "0");
 
 			// append a rect to catch mouse movements on canvas
-			mouseG.append("linegraph:rect")
+			mouse_g.append("linegraph:rect")
 				.attr("width", inner_width)
 				.attr("height", inner_height)
 				.attr("fill", "none")
@@ -572,4 +564,30 @@ window.onload = function() {
 				});
 		};
 	};
+};
+
+		
+function y_domain(country, year) {
+			
+	// determine domain of y
+	var value = 0, minimum = 0, maximum = 0;
+	for (var i = 0, n1 = country.length; i < n1; i++){
+		for (var j = 0, n2 = year.length; j < n2; j++){
+			value = country[i][j];
+			value = +value;
+
+			// keep track of maximum and minimum y-value for domain of y
+			if (minimum == 0 && maximum == 0) {
+				minimum = value;
+				maximum = value;
+			}
+			else if (value < minimum) { 
+				minimum = value;
+			}
+			else if (value > maximum) {
+				maximum = value;
+			}
+		};
+	};
+	return [minimum, maximum];
 };
