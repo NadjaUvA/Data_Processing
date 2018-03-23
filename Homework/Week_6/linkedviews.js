@@ -336,7 +336,7 @@ window.onload = function() {
 					case 0: return "Young population";
 					case 1: return "Working force";
 					case 2: return "Elderly population";
-				}
+				};
 			});
 
 		// add the title of the linechart
@@ -427,11 +427,11 @@ window.onload = function() {
 				// add interactivity
 				.on("mouseover", function() {
 					tooltip.style("display", null);
-					d3.select(this).style("opacity", 1) 
+					d3.select(this).style("opacity", 1); 
 				})
 				.on("mouseout", function() { 
 					tooltip.style("display", "none");
-					d3.select(this).style("opacity", 0.7) 
+					d3.select(this).style("opacity", 0.7); 
 				})
 				.on("mousemove", function(d) {
 					var xPosition = d3.mouse(this)[0] -  15;
@@ -446,22 +446,28 @@ window.onload = function() {
 				});
 		};
 
+		/**
+		* updates linegraphs to selected country
+		*/
 		function update_linegraph(country, name) {
 
-			// determine domain of y
-			var domain_values = y_domain(country, year);
-
 			// define the domains of the data values
+			var domain_values = y_domain(country, year);
 			y.domain([(domain_values[0] - 1), (domain_values[1] + 1)]);
+
+			// change the y axis
+			linegraph.selectAll(".y.axis")
+				.transition()
+				.call(y_axis);
 
 			d3.selectAll("path.line").remove();
 
-			// join new data with old elements, if any
+			// join data with elements
 			var graph = linegraph.selectAll(".line")
 				.data(country)
-				.attr("class", "graph")
+				.attr("class", "graph");
 
-			// apply operations to both entered elements and update selection
+			// draw graphs
 			graph.enter().append("g")
 				.append("path")
 				.attr("class", "line")
@@ -471,21 +477,19 @@ window.onload = function() {
 				.style("stroke-width", 3)
 				.style("stroke", function(d, i) {return color(i); });
 
-			// change the y axis
-			linegraph.selectAll(".y.axis")
-				.transition()
-				.call(yAxis)
-
 			// change title
 			linegraph.select(".title_")
 				.text("Development of the composition of the population in " + name);
 		};
 
+		/**
+		* adds interactive data values to the lines
+		*/
 		function linegraph_values(country) {
 
 			// add a group for the interactive effects
 			var mouse_g = linegraph.append("g")
-				.attr("class", "mouse-over-effects_" + country)
+				.attr("class", "mouse-over-effects_" + country);
 
 			// add data for the graph
 			var mouse_per_line = mouse_g.selectAll(".mouse-per-line_" + country)
@@ -566,7 +570,9 @@ window.onload = function() {
 	};
 };
 
-		
+/**
+* determines maximum and minimum value of a domain
+*/		
 function y_domain(country, year) {
 			
 	// determine domain of y
